@@ -17,7 +17,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
-    config = (f'token: {const.TOKEN}; guild: {const.GUILD}; old cal channel: {const.OLD_CAL_CHANNEL}, '
+    config = (f'token set?: {const.TOKEN is not None}; guild: {const.GUILD}; old cal channel: {const.OLD_CAL_CHANNEL}, '
               f'new cal channel: {const.NEW_CAL_CHANNEL}')
     print(config)
     await post_readings.start()

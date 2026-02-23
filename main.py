@@ -1,16 +1,17 @@
-# This is a sample Python script.
+import dotenv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+dotenv.load_dotenv()
+
+import constants as const
+import calendar as cal
+import discord
+import logging
+
+from discord.ext import commands
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+GUILD = const.GUILD
+log = logging.getLogger('discord')
+intents = discord.Intents.default()
+client = commands.Bot(command_prefix='!', intents=intents)
+client.run(const.TOKEN)

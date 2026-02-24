@@ -11,13 +11,14 @@ import discord
 import logging
 
 from discord.ext import commands
+from zoneinfo import ZoneInfo
 
 
 class CronJobs:
     def __init__(self, bot: commands.Bot) -> None:
         log = logging.getLogger('CronJobs')
 
-        @aiocron.crontab(const.CRON_TIME)
+        @aiocron.crontab(const.CRON_TIME, tz=ZoneInfo(const.TIMEZONE))
         async def post_readings():
             log.debug('sending messages')
             old_cal_channel = await bot.fetch_channel(const.OLD_CAL_CHANNEL)

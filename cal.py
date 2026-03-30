@@ -54,23 +54,28 @@ def derive_readings(data: dict) -> dict:
     readings['summary'] = f'{summary_header}\n{summary_list}'
     passages = []
     readings['passages'] = passages
+    is_first_verse = True
 
     for entry in data:
         current_chapter = 0
         heading = entry['display']
+        source = entry['source']
         passage = {}
         verses = []
         passages.append(passage)
-        passage['heading'] = f'## {heading}\n'
+        passage['heading'] = f'## {heading} ({source})\n'
         passage['verses'] = verses
 
         for verse in entry['passage']:
-            current_verse = '\n>\t' if verse['paragraph_start'] else ''
+            current_verse = '\n>\t' if verse['paragraph_start'] else '> ' if is_first_verse else ''
+            is_first_verse = False
             is_new_chapter = verse['chapter'] != current_chapter
             current_chapter = verse['chapter'] if is_new_chapter else current_chapter
             verse_sup = get_verse_number(current_chapter, verse['verse'], include_chapter=is_new_chapter)
             current_verse += f'{verse_sup}{verse["content"]}'
             verses.append(current_verse)
+
+        is_first_verse = True
 
 
     return readings

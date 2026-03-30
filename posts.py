@@ -10,7 +10,7 @@ def create_messages(content: dict) -> list:
 
     # initial day post
     header = content.get('day', '')
-    feasts = content.get('feasts', '')
+    feasts = content.get('feasts') if content.get('feasts') else ''
     commemorations = content.get('commemorations', '')
     readings_summary = content.get('readings', {}).get('summary', '')
     messages.append(f'{header}\n{feasts}\n{commemorations}\n{readings_summary}')
@@ -23,7 +23,7 @@ def create_messages(content: dict) -> list:
         current_message += passage['heading']
         for verse in passage['verses']:
             if len(current_message) + len(verse) > 2000:
-                messages.append(current_message);
+                messages.append(current_message)
                 current_message = '> '
 
             current_message += verse

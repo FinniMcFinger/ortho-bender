@@ -20,16 +20,25 @@ def create_messages(content: dict) -> list:
     current_message = ''
 
     for passage in passages:
-        current_message += passage['heading']
-        for verse in passage['verses']:
-            if len(current_message) + len(verse) > 2000:
-                messages.append(current_message)
-                current_message = '> '
-
-            current_message += verse
-
-        if len(current_message) > 0:
-            messages.append(current_message)
-            current_message = ''
+        fragments = fragment(passage['heading'], passage['verses'])
+        messages.extend(fragments)
 
     return messages
+
+
+def fragment(heading: str, verses: list) -> list:
+    fragments = []
+    full_reading = ' '.join(verses)
+    tokens = full_reading.split(' ')
+    current = heading
+
+    for token in tokens:
+        if len(current) + len(token) + 1 > 2000:
+            fragments.append(current)
+            current = f'> {token}'
+        else:
+            current += f' {token}'
+
+    fragments.append(current)
+
+    return fragments

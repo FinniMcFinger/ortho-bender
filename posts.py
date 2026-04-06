@@ -4,7 +4,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def create_messages(content: dict) -> list:
+def create_messages(content: dict, role_id: str) -> list:
     messages = []
     log.debug(f'content: {content}')
 
@@ -13,7 +13,7 @@ def create_messages(content: dict) -> list:
     feasts = content.get('feasts') if content.get('feasts') else ''
     commemorations = content.get('commemorations', '')
     readings_summary = content.get('readings', {}).get('summary', '')
-    messages.append(f'{header}\n{feasts}\n{commemorations}\n{readings_summary}')
+    messages.append(f'{header}\n{feasts}\n{commemorations}\n{readings_summary}\n<@&{role_id}>')
 
     # readings {summary: string, passages: [{heading: string, verses: [string]}]
     passages = content['readings']['passages']

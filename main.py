@@ -27,10 +27,10 @@ class CronJobs:
             log.debug(f'Got new cal channel: {new_cal_channel}')
             old_cal_data = cal.get_today_data(use_new_cal=False)
             old_cal_content = cal.get_post_contents(old_cal_data)
-            old_cal_messages = posts.create_messages(old_cal_content)
+            old_cal_messages = posts.create_messages(old_cal_content, const.OLD_CAL_ROLE)
             new_cal_data = cal.get_today_data()
             new_cal_content = cal.get_post_contents(new_cal_data)
-            new_cal_messages = posts.create_messages(new_cal_content)
+            new_cal_messages = posts.create_messages(new_cal_content, const.NEW_CAL_ROLE)
 
             for message in old_cal_messages:
                 await old_cal_channel.send(message)

@@ -11,7 +11,7 @@ def create_messages(content: dict, role_id: str) -> list:
     # initial day post
     header = content.get('day', '')
     feasts = content.get('feasts') if content.get('feasts') else ''
-    commemorations = content.get('commemorations', '')
+    commemorations = content.get('commemorations') if content.get('commemorations') else ''
     readings_summary = content.get('readings', {}).get('summary', '')
     messages.append(f'{header}\n{feasts}\n{commemorations}\n{readings_summary}\n<@&{role_id}>')
 

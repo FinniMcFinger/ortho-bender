@@ -27,16 +27,26 @@ class CronJobs:
             log.debug(f'Got new cal channel: {new_cal_channel}')
             old_cal_data = cal.get_today_data(use_new_cal=False)
             old_cal_content = cal.get_post_contents(old_cal_data)
-            old_cal_messages = posts.create_messages(old_cal_content, const.OLD_CAL_ROLE)
+            old_cal_header, old_cal_messages = posts.create_messages(old_cal_content, const.OLD_CAL_ROLE)
             new_cal_data = cal.get_today_data()
             new_cal_content = cal.get_post_contents(new_cal_data)
-            new_cal_messages = posts.create_messages(new_cal_content, const.NEW_CAL_ROLE)
+            new_cal_header, new_cal_messages = posts.create_messages(new_cal_content, const.NEW_CAL_ROLE)
+            old_cal_thread = await old_cal_channel.create_thread(
+                name=old_cal_header,
+                auto_archive_duration=10080,
+                type=discord.ChannelType.public_thread
+            )
+            new_cal_thread = await new_cal_channel.create_thread(
+                name=new_cal_header,
+                auto_archive_duration=10080,
+                type=discord.ChannelType.public_thread
+            )
 
             for message in old_cal_messages:
-                await old_cal_channel.send(message)
+                await old_cal_thread.send(message)
 
             for message in new_cal_messages:
-                await new_cal_channel.send(message)
+                await new_cal_thread.send(message)
 
 
 class Bender(commands.Bot):
